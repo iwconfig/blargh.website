@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="alternate"
+      type="application/rss+xml"
+      href="./rss.xml"
+      title="RSS feed for ./"/>
+<title>Hej världen</title>
+<meta name="author" content="Leonard Högström"><meta name="referrer" content="no-referrer"><link href= "static/style.css" rel="stylesheet" type="text/css" /><link rel="icon" href="static/favicon.ico"></head>
+<body>
+<div id="preamble" class="status">
+<div class="header">  <a href="https://blorgh.blargh.website">Leonards blorgh - om teknik och sånt</a>  <p>Github: <a href="https://github.com/iwconfig">iwconfig</a></p></div></div>
+<div id="content">
+<div class="post-date">14 maj 2020</div><h1 class="post-title"><a href="./2020-05-14-hej-världen.html">Hej världen</a></h1>
+<p>
+Jag heter Leonard och mina intressen är bland annat programmering och
+Linux. Jag startar denna blogg för jag behöver någonstans att skriva
+ner mina tankar och funderingar, problem och lösningar.
+</p>
+
+<p>
+Sedan en tid tillbaka går jag i tankar kring att ta mig an en
+IT-karriär med inriktning på Linux. Jag önskar att utveckla med mina
+kunskaper inom Linux-system och planerar därför att söka utbildning
+hos företaget <a href="https://edugrade.com/yh-utbildning/it/linux-devops-engineer/">Edugrade</a> med inriktning på den alltmer efterfrågade
+DevOps-rollen inom systemadministration.
+</p>
+
+<p>
+Bloggverktyget jag använder är av enklaste form vid namn
+<a href="https://github.com/bastibe/org-static-blog">"Org-static-blog"</a>. Jag skriver mina inlägg i Emacs med Org-mode, som
+sedan <code>org-static-blog</code> exporterar till statiska HTML-dokument i en
+mappstruktur tillsammans med tillhörande HTML-kod i ett
+git-"repository", som jag sedan synkar med <a href="https://iwconfig.github.io/blorgh.blargh.website/">github</a>. Simpelt!
+</p>
+
+<div id="outline-container-org321f7f0" class="outline-2">
+<h2 id="org321f7f0">Reell kompetens</h2>
+<div class="outline-text-2" id="text-org321f7f0">
+<p>
+För att demonstrera reell kompetens planerar jag att simulera olika
+problem och lösningar och utefter på dokumenterande vis presentera
+dessa.
+</p>
+
+<p>
+Som första demonstration visar jag hur det kan gå till när
+"root"-lösenordet behöver återställas. Jag börjar med att installera
+Slackware i VirtualBox.
+</p>
+
+
+<figure id="org9096d9d">
+<img src="./bilder/1/slackware-1.png" alt="slackware-1.png">
+
+<figcaption><span class="figure-number">Illustration 1 </span>Slackware 14.2</figcaption>
+</figure>
+
+<p>
+Här trycker jag bara på enter för att ladda kärnan med de
+förinställda parametrarna.
+</p>
+
+
+<figure id="org75e7e68">
+<img src="./bilder/1/slackware-2.png" alt="slackware-2.png">
+
+<figcaption><span class="figure-number">Illustration 2 </span>I det här fallet finns det bara en disk (sda).</figcaption>
+</figure>
+
+<p>
+När kärnan har laddat in och Slackware har startat upp loggar jag
+in med användarnamnet "root", utan lösenord. Nu ska jag partitionera
+disken. För att veta vilken disk jag skall partitionera använder
+jag mig utav verktyget <code>lsblk</code>. Sedan kör jag <code>fdisk</code> med <code>/dev/sda</code>
+som argument för att tala om för <code>fdisk</code> att arbeta på just disken <code>sda</code>
+och inte någon annan.
+</p>
+
+
+<figure id="org6d93ae9">
+<img src="./bilder/1/slackware-3.png" alt="slackware-3.png">
+
+<figcaption><span class="figure-number">Illustration 3 </span>Väl inne i <code>fdisk</code>, tryck på tangenten "h" för att ta fram en hjälpmeny.</figcaption>
+</figure>
+
+<p>
+Här skapar jag en ny primär partition genom att ange följande:
+</p>
+<ol class="org-ol">
+<li>"n" för att skapa en ny partition,</li>
+<li>följt av "p" för primär partition,</li>
+<li>sedan "enter" för att välja det förinställda partitionsuffixet
+(standardval 1), och</li>
+<li>"enter" igen för att välja första sektorn på hårddisken
+(standardval 2048).</li>
+</ol>
+
+<p>
+Istället för hela hårddisken väljer jag att också skapa en
+swappartition, trots att jag troligtvis inte behöver det för detta
+enkla ändamål. Jag gör det enkelt för mig och väljer en
+swappartition av samma storlek som mitt virtuellt dedikerade
+ramminne på 1GB. Den totala (virtuella) storleken på <code>/dev/sda</code> är
+20GB.
+</p>
+
+<ol class="org-ol">
+<li value="5">Så istället för det förinställda valet skriver jag
+"+19G"<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>.</li>
+<li>Jag gör sedan om punkterna 1-4, och</li>
+<li>till skillnad från punkt 5 första gången, anger jag nu bara
+"enter" för det förinställda valet (sista sektorn)<sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>.</li>
+<li>Sedan "t" för att välja partitionstyp,</li>
+<li>"enter" för att välj partitionsnummer (standardval 2),</li>
+<li>anger "82" för typen "swap", och</li>
+<li>avslutningsvis "w" för att permanent spara partitionstabellen.</li>
+</ol>
+
+
+<figure id="orgb3d8c7c">
+<img src="./bilder/1/slackware-4.png" alt="slackware-4.png">
+
+<figcaption><span class="figure-number">Illustration 4 </span>Förstasidan av kommandot <code>setup</code>.</figcaption>
+</figure>
+
+<p>
+Nu kör jag kommandot <code>setup</code> för att påbörja installationen. Jag
+anger min swappartition (<code>/dev/sd2</code>), formaterar och inrättar
+<code>/dev/sda1</code> med filsystemet "EXT4", och väljer att installera alla
+paket med den "inmatade" installations-avbilden som källa.
+</p>
+
+<p>
+Jag skippar att ställa in korrekt tangentbordsuppsättning då jag
+klarar mig bra med <code>en_US</code> / <code>C</code>. Jag har ett amerikanskt
+tangentbord och för denna demonstration behövs ändå inte åäö.
+</p>
+
+
+<figure id="org73f7981">
+<img src="./bilder/1/slackware-5.png" alt="slackware-5.png">
+
+<figcaption><span class="figure-number">Illustration 5 </span>Val av paketserier.</figcaption>
+</figure>
+
+<p>
+För att hålla storleken på operativsystemet så lågt som möjligt
+markerar jag endast de absolut nödvändigaste paketen för
+installation.
+</p>
+
+
+<figure id="orgd3f2ebb">
+<img src="./bilder/1/slackware-6.png" alt="slackware-6.png">
+
+<figcaption><span class="figure-number">Illustration 6 </span>Val av "root"-lösenord.</figcaption>
+</figure>
+
+<p>
+Här skriver jag "edugrade" som lösenord för det speciella kontot
+"root", och fortsätter sedan installationen.
+</p>
+
+<p>
+När installationen är färdig startar jag om min virtuella dator och
+ser till att installations-avbilden är urkopplad.
+</p>
+</div>
+
+<div id="outline-container-org681161b" class="outline-3">
+<h3 id="org681161b">"Hoppsan! Jag har visst försnillat root-lösenordet!"</h3>
+<div class="outline-text-3" id="text-org681161b">
+
+<figure id="org4ce9f81">
+<img src="./bilder/1/slackware-7.png" alt="slackware-7.png">
+
+<figcaption><span class="figure-number">Illustration 7 </span>Ändra lösenord med hjälp av kommandot <code>passwd</code>.</figcaption>
+</figure>
+
+<p>
+När systemet väl är uppstartat byter jag lösenordet för "root" med
+hjälp av kommandot <code>passwd</code>. Låt säga att jag är fruktansvärt
+glömsk och helt enkelt inte kommer ihåg lösenordet nästa gång jag
+loggar in.
+</p>
+
+
+<figure id="org5b0925b">
+<img src="./bilder/1/slackware-8.png" alt="slackware-8.png">
+
+<figcaption><span class="figure-number">Illustration 8 </span>Lösenordet för "root" är inkorrekt, och det tidigare lösenordet "edugrade" fungerar inte heller.</figcaption>
+</figure>
+
+<p>
+<i>Hur löser jag detta?</i> Jo, genom att ändra lösenordet för
+"root". Ett sätt att göra detta är att starta upp datorn i det så
+kallade "single user mode". Ett alternativ är med att starta upp
+datorn i "rescue mode". Ett annat alternativ är att starta upp
+datorn med en LiveCD.
+</p>
+
+<ul class="org-ul">
+<li>"Single user mode" innebär att datorn startar upp i princip som
+vanligt med standardkärnan och full funktionalitet, men endast
+det väsentliga startas automatiskt.</li>
+<li>"Rescue mode" innebär att datorn startar upp med en särskild
+kärna och reducerad funktionalitet. Kan laddas både från disk,
+USB och CD/DVD.</li>
+<li>"Live CD" - eller <i>"Live-avbild"</i> eftersom det idag är vanligare
+med USB-minnen - innehåller ett komplett operativsystem som
+endast laddas in i RAM vid sidan av det redan installerade
+operativsystemet, och har alltså makten att modifiera
+hårddiskarna (t.ex. <code>/dev/sda1</code>). Således kan en "Live CD" i sig
+vara ett slags "rescue mode".</li>
+</ul>
+
+
+<p>
+I det här fallet kommer jag använda mig av "single user mode".
+</p>
+
+
+<figure id="orga529626">
+<img src="./bilder/1/slackware-9.png" alt="slackware-9.png">
+
+<figcaption><span class="figure-number">Illustration 9 </span>LILO (Linux Loader).</figcaption>
+</figure>
+
+<p>
+<i>Hur går det till då?</i> Jo, det är rätt så enkelt. Slackware
+använder sig av LILO (Linux Loader), och när bootloadern visas vid
+uppstart, tryck då på "tabb"-tangenten och skriv "linux single"
+följt av enter.
+</p>
+
+<p>
+Det är dock inte alltid <code>linux single</code> fungerar till att ändra
+lösenordet. Jag måste helt enkelt logga in med root för att kunna
+göra något. Jag hade hoppats att det skulle fungera med Slackware
+med tanke på dess mycket konservativa filosofi och utförande.
+</p>
+
+
+<figure id="org6c29e01">
+<img src="./bilder/1/slackware-10.png" alt="slackware-10.png">
+
+<figcaption><span class="figure-number">Illustration 10 </span>Boota med kärnan och starta direkt i <code>/bin/bash</code>.</figcaption>
+</figure>
+
+<p>
+En alternativ lösning på problemet är att istället starta upp
+direkt i bash med <code>linux init=/bin/bash</code>. Detta gör att jag
+kommer till en bash-instans mycket tidigare än vid single user
+mode och på så vis har ett mycket mindre antal delar av systemet
+hunnit initialiseras.
+</p>
+
+
+<figure id="org6a7eadb">
+<img src="./bilder/1/slackware-11.png" alt="slackware-11.png">
+
+<figcaption><span class="figure-number">Illustration 11 </span><code>/etc/shadow</code> kan endast redigeras av root.</figcaption>
+</figure>
+
+<p>
+Dock stöter vi på nästa problem här. Det går inte att skriva till
+<code>/etc/shadow</code> eftersom endast användaren "root" kan göra
+det. Lyckligtvis finns det en lösning även på detta problem,
+nämligen att om-montera <code>/dev/sda1</code> med läs- och skrivrättigheter
+med hjälp av detta kommando: <code>mount -o remount,rw /dev/sda1</code>.
+</p>
+
+<p>
+Märkligt nog visar kommandot <code>mount</code> att <code>/dev/sda1</code> redan är
+monterad med <code>rw</code>-flaggorna. Kan måhända att <code>mount</code> visar fel. Jag
+ville även läsa monteringarna direkt i <code>/proc/mounts</code> men fick
+endast ett felmeddelande om att filen inte fanns. Måhända
+att det beror på att delar av systemet inte har hunnit
+initialiseras ännu, men jag tycker ändå att det är lite märkligt.
+</p>
+
+<p>
+Hur som helst, jag om-monterar <code>/dev/sda1</code> och provar igen:
+Jajamensan! Nytt lösenord: "edugrade".
+</p>
+
+
+<figure id="org70e9df6">
+<img src="./bilder/1/slackware-12.png" alt="slackware-12.png">
+
+<figcaption><span class="figure-number">Illustration 12 </span><code>mount -o remount,rw /dev/sda1</code></figcaption>
+</figure>
+
+<p>
+Jag synkar cachen så att minnesbuffern verkligen sparas till
+hårddisken, startar sedan om och loggar in som "root"!
+</p>
+
+
+<figure id="org3f8cf9a">
+<img src="./bilder/1/slackware-13.png" alt="slackware-13.png">
+
+<figcaption><span class="figure-number">Illustration 13 </span>YAAHOOO</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Fotnoter: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+"+19G" representerar antalet fria sektorer adderat med
+positionen för vald första sektor. Första + (sista - 1GiB) = 19GiB.
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+Första fria sektorn + sista fria sektorn = 1023MiB ≈ 1GiB
+</p></div></div>
+
+
+</div>
+</div><div class="taglist"><a href="./tags.html">Tags</a>: <a href="./tag-edugrade.html">Edugrade</a> </div></div>
+<div id="postamble" class="status"><center><a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/">  <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/3.0/88x31.png" /></a><br /><span xmlns:dct="https://purl.org/dc/terms/" href="https://purl.org/dc/dcmitype/Text" property="dct:title" rel="dct:type">blorgh.blargh.website</span> by <a xmlns:cc="https://creativecommons.org/ns#" href="https://blorgh.blargh.website" property="cc:attributionName" rel="cc:attributionURL">Leonard Högström</a> is licensed under a <a rel="license" href="https://creativecommons.org/licenses/by-sa/3.0/">Creative Commons Attribution-ShareAlike 3.0 Unported License</a>.</center></div>
+</body>
+</html>

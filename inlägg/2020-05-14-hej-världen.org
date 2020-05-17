@@ -1,0 +1,204 @@
+#+title: Hej världen
+#+date: <2020-05-14 05:23>
+#+filetags: Edugrade
+#+LANGUAGE: sv
+
+Jag heter Leonard och mina intressen är bland annat programmering och
+Linux. Jag startar denna blogg för jag behöver någonstans att skriva
+ner mina tankar och funderingar, problem och lösningar.
+
+Sedan en tid tillbaka går jag i tankar kring att ta mig an en
+IT-karriär med inriktning på Linux. Jag önskar att utveckla med mina
+kunskaper inom Linux-system och planerar därför att söka utbildning
+hos företaget [[https://edugrade.com/yh-utbildning/it/linux-devops-engineer/][Edugrade]] med inriktning på den alltmer efterfrågade
+DevOps-rollen inom systemadministration.
+
+Bloggverktyget jag använder är av enklaste form vid namn
+[[https://github.com/bastibe/org-static-blog]["Org-static-blog"]]. Jag skriver mina inlägg i Emacs med Org-mode, som
+sedan =org-static-blog= exporterar till statiska HTML-dokument i en
+mappstruktur tillsammans med tillhörande HTML-kod i ett
+git-"repository", som jag sedan synkar med [[https://iwconfig.github.io/blorgh.blargh.website/][github]]. Simpelt!
+
+* Reell kompetens
+  För att demonstrera reell kompetens planerar jag att simulera olika
+  problem och lösningar och utefter på dokumenterande vis presentera
+  dessa.
+
+  Som första demonstration visar jag hur det kan gå till när
+  "root"-lösenordet behöver återställas. Jag börjar med att installera
+  Slackware i VirtualBox.
+
+  #+caption: Slackware 14.2
+  #+name: slackware-1
+  [[./bilder/1/slackware-1.png]]
+
+  Här trycker jag bara på enter för att ladda kärnan med de
+  förinställda parametrarna.
+
+  #+caption: I det här fallet finns det bara en disk (sda).
+  #+name: slackware-2
+  [[./bilder/1/slackware-2.png]]
+
+  När kärnan har laddat in och Slackware har startat upp loggar jag
+  in med användarnamnet "root", utan lösenord. Nu ska jag partitionera
+  disken. För att veta vilken disk jag skall partitionera använder
+  jag mig utav verktyget =lsblk=. Sedan kör jag =fdisk= med =/dev/sda=
+  som argument för att tala om för =fdisk= att arbeta på just disken =sda=
+  och inte någon annan.
+
+  #+caption: Väl inne i =fdisk=, tryck på tangenten "h" för att ta fram en hjälpmeny.
+  #+name: slackware-3
+  [[./bilder/1/slackware-3.png]]
+
+  Här skapar jag en ny primär partition genom att ange följande:
+  1. "n" för att skapa en ny partition,
+  2. följt av "p" för primär partition,
+  3. sedan "enter" för att välja det förinställda partitionsuffixet
+     (standardval 1), och
+  4. "enter" igen för att välja första sektorn på hårddisken
+     (standardval 2048).
+
+  Istället för hela hårddisken väljer jag att också skapa en
+  swappartition, trots att jag troligtvis inte behöver det för detta
+  enkla ändamål. Jag gör det enkelt för mig och väljer en
+  swappartition av samma storlek som mitt virtuellt dedikerade
+  ramminne på 1GB. Den totala (virtuella) storleken på =/dev/sda= är
+  20GB.
+
+  5. [@5] Så istället för det förinställda valet skriver jag
+     "+19G"[fn:1].
+  6. Jag gör sedan om punkterna 1-4, och
+  7. till skillnad från punkt 5 första gången, anger jag nu bara
+     "enter" för det förinställda valet (sista sektorn)[fn:2].
+  8. Sedan "t" för att välja partitionstyp,
+  9. "enter" för att välj partitionsnummer (standardval 2),
+  10. anger "82" för typen "swap", och
+  11. avslutningsvis "w" för att permanent spara partitionstabellen.
+
+[fn:1] "+19G" representerar antalet fria sektorer adderat med
+positionen för vald första sektor. Första + (sista - 1GiB) = 19GiB.
+[fn:2] Första fria sektorn + sista fria sektorn = 1023MiB ≈ 1GiB
+
+
+  #+caption: Förstasidan av kommandot =setup=.
+  #+name: slackware-4
+  [[./bilder/1/slackware-4.png]]
+
+  Nu kör jag kommandot =setup= för att påbörja installationen. Jag
+  anger min swappartition (=/dev/sd2=), formaterar och inrättar
+  =/dev/sda1= med filsystemet "EXT4", och väljer att installera alla
+  paket med den "inmatade" installations-avbilden som källa.
+
+  Jag skippar att ställa in korrekt tangentbordsuppsättning då jag
+  klarar mig bra med =en_US= / =C=. Jag har ett amerikanskt
+  tangentbord och för denna demonstration behövs ändå inte åäö.
+
+  #+caption: Val av paketserier.
+  #+name: slackware-5
+  [[./bilder/1/slackware-5.png]]
+
+  För att hålla storleken på operativsystemet så lågt som möjligt
+  markerar jag endast de absolut nödvändigaste paketen för
+  installation.
+
+  #+caption: Val av "root"-lösenord.
+  #+name: slackware-6
+  [[./bilder/1/slackware-6.png]]
+
+  Här skriver jag "edugrade" som lösenord för det speciella kontot
+  "root", och fortsätter sedan installationen.
+
+  När installationen är färdig startar jag om min virtuella dator och
+  ser till att installations-avbilden är urkopplad.
+
+** "Hoppsan! Jag har visst försnillat root-lösenordet!"
+
+   #+caption: Ändra lösenord med hjälp av kommandot =passwd=.
+   #+name: slackware-7
+   [[./bilder/1/slackware-7.png]]
+
+   När systemet väl är uppstartat byter jag lösenordet för "root" med
+   hjälp av kommandot =passwd=. Låt säga att jag är fruktansvärt
+   glömsk och helt enkelt inte kommer ihåg lösenordet nästa gång jag
+   loggar in.
+
+   #+caption: Lösenordet för "root" är inkorrekt, och det tidigare lösenordet "edugrade" fungerar inte heller.
+   #+name: slackware-8
+   [[./bilder/1/slackware-8.png]]
+
+   /Hur löser jag detta?/ Jo, genom att ändra lösenordet för
+   "root". Ett sätt att göra detta är att starta upp datorn i det så
+   kallade "single user mode". Ett alternativ är med att starta upp
+   datorn i "rescue mode". Ett annat alternativ är att starta upp
+   datorn med en LiveCD.
+
+   - "Single user mode" innebär att datorn startar upp i princip som
+     vanligt med standardkärnan och full funktionalitet, men endast
+     det väsentliga startas automatiskt.
+   - "Rescue mode" innebär att datorn startar upp med en särskild
+     kärna och reducerad funktionalitet. Kan laddas både från disk,
+     USB och CD/DVD.
+   - "Live CD" - eller /"Live-avbild"/ eftersom det idag är vanligare
+     med USB-minnen - innehåller ett komplett operativsystem som
+     endast laddas in i RAM vid sidan av det redan installerade
+     operativsystemet, och har alltså makten att modifiera
+     hårddiskarna (t.ex. =/dev/sda1=). Således kan en "Live CD" i sig
+     vara ett slags "rescue mode".
+
+
+   I det här fallet kommer jag använda mig av "single user mode".
+
+   #+caption: LILO (Linux Loader).
+   #+name: slackware-9
+   [[./bilder/1/slackware-9.png]]
+
+   /Hur går det till då?/ Jo, det är rätt så enkelt. Slackware
+   använder sig av LILO (Linux Loader), och när bootloadern visas vid
+   uppstart, tryck då på "tabb"-tangenten och skriv "linux single"
+   följt av enter.
+
+   Det är dock inte alltid =linux single= fungerar till att ändra
+   lösenordet. Jag måste helt enkelt logga in med root för att kunna
+   göra något. Jag hade hoppats att det skulle fungera med Slackware
+   med tanke på dess mycket konservativa filosofi och utförande.
+
+   #+caption: Boota med kärnan och starta direkt i =/bin/bash=.
+   #+name: slackware-10
+   [[./bilder/1/slackware-10.png]]
+
+   En alternativ lösning på problemet är att istället starta upp
+   direkt i bash med =linux init=/bin/bash=. Detta gör att jag
+   kommer till en bash-instans mycket tidigare än vid single user
+   mode och på så vis har ett mycket mindre antal delar av systemet
+   hunnit initialiseras.
+
+   #+caption: =/etc/shadow= kan endast redigeras av root.
+   #+name: slackware-11
+   [[./bilder/1/slackware-11.png]]
+
+   Dock stöter vi på nästa problem här. Det går inte att skriva till
+   =/etc/shadow= eftersom endast användaren "root" kan göra
+   det. Lyckligtvis finns det en lösning även på detta problem,
+   nämligen att om-montera =/dev/sda1= med läs- och skrivrättigheter
+   med hjälp av detta kommando: =mount -o remount,rw /dev/sda1=.
+
+   Märkligt nog visar kommandot =mount= att =/dev/sda1= redan är
+   monterad med =rw=-flaggorna. Kan måhända att =mount= visar fel. Jag
+   ville även läsa monteringarna direkt i =/proc/mounts= men fick
+   endast ett felmeddelande om att filen inte fanns. Måhända
+   att det beror på att delar av systemet inte har hunnit
+   initialiseras ännu, men jag tycker ändå att det är lite märkligt.
+
+   Hur som helst, jag om-monterar =/dev/sda1= och provar igen:
+   Jajamensan! Nytt lösenord: "edugrade".
+
+   #+caption: =mount -o remount,rw /dev/sda1=
+   #+name: slackware-12
+   [[./bilder/1/slackware-12.png]]
+
+   Jag synkar cachen så att minnesbuffern verkligen sparas till
+   hårddisken, startar sedan om och loggar in som "root"!
+
+   #+caption: YAAHOOO
+   #+name: slackware-13
+   [[./bilder/1/slackware-13.png]]

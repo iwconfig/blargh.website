@@ -1,0 +1,15 @@
+*~
+\#*#
+
+/bilder/*/**
+!/bilder/*/**.png
+!/bilder/*/**.jpg
+!/bilder/*/**.jpeg
+!/bilder/*/**.bmp
+!/bilder/*/**.gif
+!/bilder/*/**.webp
+
+/static/*
+!/static/style.css
+!/static/favicon.ico
+
