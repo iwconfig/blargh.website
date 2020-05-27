@@ -3,6 +3,8 @@
 #+filetags: Edugrade
 #+LANGUAGE: sv
 
+*UPPDATERAD: Tillagd demonstration av lösenordsåterställning även i GRUB-miljö*
+
 Jag heter Leonard och mina intressen är bland annat programmering och
 Linux. Jag startar denna blogg för jag behöver någonstans att skriva
 ner mina tankar och funderingar, problem och lösningar.
@@ -15,7 +17,7 @@ DevOps-rollen inom systemadministration.
 
 Bloggverktyget jag använder är av enklaste form vid namn
 [[https://github.com/bastibe/org-static-blog]["Org-static-blog"]]. Jag skriver mina inlägg i Emacs med Org-mode, som
-sedan =org-static-blog= exporterar till statiska HTML-dokument i en
+sedan ~org-static-blog~ exporterar till statiska HTML-dokument i en
 mappstruktur tillsammans med tillhörande HTML-kod i ett
 git-"repository", som jag sedan synkar med [[https://iwconfig.github.io/blorgh.blargh.website/][github]]. Simpelt!
 
@@ -42,11 +44,11 @@ git-"repository", som jag sedan synkar med [[https://iwconfig.github.io/blorgh.b
   När kärnan har laddat in och Slackware har startat upp loggar jag
   in med användarnamnet "root", utan lösenord. Nu ska jag partitionera
   disken. För att veta vilken disk jag skall partitionera använder
-  jag mig utav verktyget =lsblk=. Sedan kör jag =fdisk= med =/dev/sda=
-  som argument för att tala om för =fdisk= att arbeta på just disken =sda=
+  jag mig utav verktyget ~lsblk~. Sedan kör jag ~fdisk~ med ~/dev/sda~
+  som argument för att tala om för ~fdisk~ att arbeta på just disken ~sda~
   och inte någon annan.
 
-  #+caption: Väl inne i =fdisk=, tryck på tangenten "h" för att ta fram en hjälpmeny.
+  #+caption: Väl inne i ~fdisk~, tryck på tangenten "h" för att ta fram en hjälpmeny.
   #+name: slackware-3
   [[./bilder/1/slackware-3.png]]
 
@@ -62,7 +64,7 @@ git-"repository", som jag sedan synkar med [[https://iwconfig.github.io/blorgh.b
   swappartition, trots att jag troligtvis inte behöver det för detta
   enkla ändamål. Jag gör det enkelt för mig och väljer en
   swappartition av samma storlek som mitt virtuellt dedikerade
-  ramminne på 1GB. Den totala (virtuella) storleken på =/dev/sda= är
+  ramminne på 1GB. Den totala (virtuella) storleken på ~/dev/sda~ är
   20GB.
 
   5. [@5] Så istället för det förinställda valet skriver jag
@@ -80,17 +82,17 @@ positionen för vald första sektor. Första + (sista - 1GiB) = 19GiB.
 [fn:2] Första fria sektorn + sista fria sektorn = 1023MiB ≈ 1GiB
 
 
-  #+caption: Förstasidan av kommandot =setup=.
+  #+caption: Förstasidan av kommandot ~setup~.
   #+name: slackware-4
   [[./bilder/1/slackware-4.png]]
 
-  Nu kör jag kommandot =setup= för att påbörja installationen. Jag
-  anger min swappartition (=/dev/sd2=), formaterar och inrättar
-  =/dev/sda1= med filsystemet "EXT4", och väljer att installera alla
+  Nu kör jag kommandot ~setup~ för att påbörja installationen. Jag
+  anger min swappartition (~/dev/sd2~), formaterar och inrättar
+  ~/dev/sda1~ med filsystemet "EXT4", och väljer att installera alla
   paket med den "inmatade" installations-avbilden som källa.
 
   Jag skippar att ställa in korrekt tangentbordsuppsättning då jag
-  klarar mig bra med =en_US= / =C=. Jag har ett amerikanskt
+  klarar mig bra med ~en_US~ / ~C~. Jag har ett amerikanskt
   tangentbord och för denna demonstration behövs ändå inte åäö.
 
   #+caption: Val av paketserier.
@@ -111,14 +113,14 @@ positionen för vald första sektor. Första + (sista - 1GiB) = 19GiB.
   När installationen är färdig startar jag om min virtuella dator och
   ser till att installations-avbilden är urkopplad.
 
-** "Hoppsan! Jag har visst försnillat root-lösenordet!"
+** "Hoppsan! Jag har visst försnillat root-lösenordet!" (LILO)
 
-   #+caption: Ändra lösenord med hjälp av kommandot =passwd=.
+   #+caption: Ändra lösenord med hjälp av kommandot ~passwd~.
    #+name: slackware-7
    [[./bilder/1/slackware-7.png]]
 
    När systemet väl är uppstartat byter jag lösenordet för "root" med
-   hjälp av kommandot =passwd=. Låt säga att jag är fruktansvärt
+   hjälp av kommandot ~passwd~. Låt säga att jag är fruktansvärt
    glömsk och helt enkelt inte kommer ihåg lösenordet nästa gång jag
    loggar in.
 
@@ -142,7 +144,7 @@ positionen för vald första sektor. Första + (sista - 1GiB) = 19GiB.
      med USB-minnen - innehåller ett komplett operativsystem som
      endast laddas in i RAM vid sidan av det redan installerade
      operativsystemet, och har alltså makten att modifiera
-     hårddiskarna (t.ex. =/dev/sda1=). Således kan en "Live CD" i sig
+     hårddiskarna (t.ex. ~/dev/sda1~). Således kan en "Live CD" i sig
      vara ett slags "rescue mode".
 
 
@@ -157,42 +159,42 @@ positionen för vald första sektor. Första + (sista - 1GiB) = 19GiB.
    uppstart, tryck då på "tabb"-tangenten och skriv "linux single"
    följt av enter.
 
-   Det är dock inte alltid =linux single= fungerar till att ändra
+   Det är dock inte alltid ~linux single~ fungerar till att ändra
    lösenordet. Jag måste helt enkelt logga in med root för att kunna
    göra något. Jag hade hoppats att det skulle fungera med Slackware
    med tanke på dess mycket konservativa filosofi och utförande.
 
-   #+caption: Boota med kärnan och starta direkt i =/bin/bash=.
+   #+caption: Boota med kärnan och starta direkt i ~/bin/bash~.
    #+name: slackware-10
    [[./bilder/1/slackware-10.png]]
 
    En alternativ lösning på problemet är att istället starta upp
-   direkt i bash med =linux init=/bin/bash=. Detta gör att jag
+   direkt i bash med ~linux init=/bin/bash~. Detta gör att jag
    kommer till en bash-instans mycket tidigare än vid single user
    mode och på så vis har ett mycket mindre antal delar av systemet
    hunnit initialiseras.
 
-   #+caption: =/etc/shadow= kan endast redigeras av root.
+   #+caption: ~/etc/shadow~ kan endast redigeras av root.
    #+name: slackware-11
    [[./bilder/1/slackware-11.png]]
 
    Dock stöter vi på nästa problem här. Det går inte att skriva till
-   =/etc/shadow= eftersom endast användaren "root" kan göra
+   ~/etc/shadow~ eftersom endast användaren "root" kan göra
    det. Lyckligtvis finns det en lösning även på detta problem,
-   nämligen att om-montera =/dev/sda1= med läs- och skrivrättigheter
-   med hjälp av detta kommando: =mount -o remount,rw /dev/sda1=.
+   nämligen att om-montera ~/dev/sda1~ med läs- och skrivrättigheter
+   med hjälp av detta kommando: ~mount -o remount,rw /dev/sda1~.
 
-   Märkligt nog visar kommandot =mount= att =/dev/sda1= redan är
-   monterad med =rw=-flaggorna. Kan måhända att =mount= visar fel. Jag
-   ville även läsa monteringarna direkt i =/proc/mounts= men fick
+   Märkligt nog visar kommandot ~mount~ att ~/dev/sda1~ redan är
+   monterad med ~rw~-flaggorna. Kan måhända att ~mount~ visar fel. Jag
+   ville även läsa monteringarna direkt i ~/proc/mounts~ men fick
    endast ett felmeddelande om att filen inte fanns. Måhända
    att det beror på att delar av systemet inte har hunnit
    initialiseras ännu, men jag tycker ändå att det är lite märkligt.
 
-   Hur som helst, jag om-monterar =/dev/sda1= och provar igen:
+   Hur som helst, jag om-monterar ~/dev/sda1~ och provar igen:
    Jajamensan! Nytt lösenord: "edugrade".
 
-   #+caption: =mount -o remount,rw /dev/sda1=
+   #+caption: ~mount -o remount,rw /dev/sda1~
    #+name: slackware-12
    [[./bilder/1/slackware-12.png]]
 
@@ -202,3 +204,84 @@ positionen för vald första sektor. Första + (sista - 1GiB) = 19GiB.
    #+caption: YAAHOOO
    #+name: slackware-13
    [[./bilder/1/slackware-13.png]]
+
+** Hoppsan igen! (GRUB)
+
+   #+name: debian-6
+   [[./bilder/1/debian-6.png]]
+
+   Samtidigt som jag installerade Slackware installerade jag också
+   Debian för att demonstrera hur en kan gå tillväga i GRUB-miljö.
+
+   Majoriteten av alla Linuxdistributioner använder GRUB, som är en
+   förkortning av "GNU GRand Unified Bootloader".
+
+   #+caption: GRUB-kommandot ~linux~ laddar den angivna Linuxkärnan (vmlinuz).
+   #+name: debian-1
+   [[./bilder/1/debian-1.png]]
+
+   När GRUB-menyn visas trycker jag på "e"-tangenten för att redigera
+   GRUB-kommandon innan uppstart. I redigerarläget letar jag fram
+   ~linux~-kommandot och lägger till ~init=/bin/bash~ som argument
+   till Linuxkärnan (vmlinuz). På så vis instrueras kärnan att starta
+   upp direkt i bash-miljö, precis som det gick till i Slackware
+   med LILO.
+
+   Sedan trycker jag ~Ctrl-x~ för att starta upp med ändringen.
+
+   #+caption: ~mount -o remount,rw /dev/sda1~
+   #+name: debian-2
+   [[./bilder/1/debian-2.png]]
+
+   När allt är startat och klart blir jag automatiskt inloggad som
+   "root". Även nu behöver jag ändra läs- och skrivrättigheterna för
+   ~/~. Till skillnad från Slackware ser vi här att ~mount~ korrekt
+   visar att ~/dev/sda1~ /endast/ har läsrättigheter. Även filen
+   ~/proc/mounts~ existerar.
+
+   Så, jag kör även här kommandot ~mount -o remount,rw /dev/sda1~
+
+   #+caption: Ändra lösenordet för root med hjälp av kommandot ~passwd~ (utan argument).
+   #+name: debian-3
+   [[./bilder/1/debian-3.png]]
+
+   Sedan ~passwd~ utan argument för att ändra lösenordet för den
+   inloggade användaren ("root" i det här fallet). Här fyller jag i
+   "edugrade" igen.
+
+   #+caption: Filen ~/etc/passwd~ visar vilka användare som finns registrerade.
+   #+name: debian-4
+   [[./bilder/1/debian-4.png]]
+
+   Jag kom faktiskt inte heller ihåg mitt användarnamn och lösenord,
+   så jag körde kommandot ~cat /etc/passwd~ för att läsa vilka
+   användare som finns registrerade i systemet. Jag förstod att det
+   var "leonard" när jag såg det i listan. För att ändra lösenordet
+   för användaren "leonard" från en annan användare ("root" i det här
+   fallet), behöver jag ange användarnamnet som argument till
+   ~passwd~.
+
+   Sagt och gjort, nu återstår bara att synka buffern och starta
+   om.
+
+   #+caption: ~exec /sbin/init~ initierar systemet
+   #+name: debian-5
+   [[./bilder/1/debian-5.png]]
+
+   Men, ett problem uppstår, jag kan inte göra en hälsosam omstart
+   utan ~systemd~ som alltså inte har initierats. Detta är en stor
+   skillnad från Slackware som fortfarande använder ~SysVinit~. En
+   enkel lösning är att helt enkelt fortsätta initieringen för att
+   sedan starta om. Genom att köra kommadot ~exec /sbin/init~
+   fortsätter operativsystemet att starta upp som vanligt.
+
+   #+caption: "su" är en förkortning av "substitute user" eller "switch user"
+   #+name: debian-7
+   [[./bilder/1/debian-7.png]]
+
+   Efter att jag loggat in med användaren "leonard" testar jag också
+   om "root"-lösenordet fungerar, genom att öppna en terminalemulator
+   och köra kommandot ~su~. Utan något argument väljs användaren
+   "root" automatiskt.
+
+   Succé!

@@ -14,6 +14,10 @@
 <h1 class="title">Posts tagged "Edugrade":</h1>
 <div class="post-date">14 maj 2020</div><h1 class="post-title"><a href="./2020-05-14-hej-världen.html">Hej världen</a></h1>
 <p>
+<b>UPPDATERAD: Tillagd demonstration av lösenordsåterställning även i GRUB-miljö</b>
+</p>
+
+<p>
 Jag heter Leonard och mina intressen är bland annat programmering och
 Linux. Jag startar denna blogg för jag behöver någonstans att skriva
 ner mina tankar och funderingar, problem och lösningar.
@@ -35,9 +39,9 @@ mappstruktur tillsammans med tillhörande HTML-kod i ett
 git-"repository", som jag sedan synkar med <a href="https://iwconfig.github.io/blorgh.blargh.website/">github</a>. Simpelt!
 </p>
 
-<div id="outline-container-org321f7f0" class="outline-2">
-<h2 id="org321f7f0">Reell kompetens</h2>
-<div class="outline-text-2" id="text-org321f7f0">
+<div id="outline-container-org11b39ec" class="outline-2">
+<h2 id="org11b39ec">Reell kompetens</h2>
+<div class="outline-text-2" id="text-org11b39ec">
 <p>
 För att demonstrera reell kompetens planerar jag att simulera olika
 problem och lösningar och utefter på dokumenterande vis presentera
@@ -51,7 +55,7 @@ Slackware i VirtualBox.
 </p>
 
 
-<figure id="org9096d9d">
+<figure id="orge1873f5">
 <img src="./bilder/1/slackware-1.png" alt="slackware-1.png">
 
 <figcaption><span class="figure-number">Illustration 1 </span>Slackware 14.2</figcaption>
@@ -63,7 +67,7 @@ förinställda parametrarna.
 </p>
 
 
-<figure id="org75e7e68">
+<figure id="org4286b0d">
 <img src="./bilder/1/slackware-2.png" alt="slackware-2.png">
 
 <figcaption><span class="figure-number">Illustration 2 </span>I det här fallet finns det bara en disk (sda).</figcaption>
@@ -79,7 +83,7 @@ och inte någon annan.
 </p>
 
 
-<figure id="org6d93ae9">
+<figure id="org65aecd2">
 <img src="./bilder/1/slackware-3.png" alt="slackware-3.png">
 
 <figcaption><span class="figure-number">Illustration 3 </span>Väl inne i <code>fdisk</code>, tryck på tangenten "h" för att ta fram en hjälpmeny.</figcaption>
@@ -119,7 +123,7 @@ ramminne på 1GB. Den totala (virtuella) storleken på <code>/dev/sda</code> är
 </ol>
 
 
-<figure id="orgb3d8c7c">
+<figure id="orgd9e50c9">
 <img src="./bilder/1/slackware-4.png" alt="slackware-4.png">
 
 <figcaption><span class="figure-number">Illustration 4 </span>Förstasidan av kommandot <code>setup</code>.</figcaption>
@@ -139,7 +143,7 @@ tangentbord och för denna demonstration behövs ändå inte åäö.
 </p>
 
 
-<figure id="org73f7981">
+<figure id="orgba94fb2">
 <img src="./bilder/1/slackware-5.png" alt="slackware-5.png">
 
 <figcaption><span class="figure-number">Illustration 5 </span>Val av paketserier.</figcaption>
@@ -152,7 +156,7 @@ installation.
 </p>
 
 
-<figure id="orgd3f2ebb">
+<figure id="orgcdc4ce5">
 <img src="./bilder/1/slackware-6.png" alt="slackware-6.png">
 
 <figcaption><span class="figure-number">Illustration 6 </span>Val av "root"-lösenord.</figcaption>
@@ -169,11 +173,11 @@ ser till att installations-avbilden är urkopplad.
 </p>
 </div>
 
-<div id="outline-container-org681161b" class="outline-3">
-<h3 id="org681161b">"Hoppsan! Jag har visst försnillat root-lösenordet!"</h3>
-<div class="outline-text-3" id="text-org681161b">
+<div id="outline-container-org6932a46" class="outline-3">
+<h3 id="org6932a46">"Hoppsan! Jag har visst försnillat root-lösenordet!" (LILO)</h3>
+<div class="outline-text-3" id="text-org6932a46">
 
-<figure id="org4ce9f81">
+<figure id="orgf95c29b">
 <img src="./bilder/1/slackware-7.png" alt="slackware-7.png">
 
 <figcaption><span class="figure-number">Illustration 7 </span>Ändra lösenord med hjälp av kommandot <code>passwd</code>.</figcaption>
@@ -187,7 +191,7 @@ loggar in.
 </p>
 
 
-<figure id="org5b0925b">
+<figure id="orgeb4eeb7">
 <img src="./bilder/1/slackware-8.png" alt="slackware-8.png">
 
 <figcaption><span class="figure-number">Illustration 8 </span>Lösenordet för "root" är inkorrekt, och det tidigare lösenordet "edugrade" fungerar inte heller.</figcaption>
@@ -222,7 +226,7 @@ I det här fallet kommer jag använda mig av "single user mode".
 </p>
 
 
-<figure id="orga529626">
+<figure id="org5031be8">
 <img src="./bilder/1/slackware-9.png" alt="slackware-9.png">
 
 <figcaption><span class="figure-number">Illustration 9 </span>LILO (Linux Loader).</figcaption>
@@ -243,7 +247,7 @@ med tanke på dess mycket konservativa filosofi och utförande.
 </p>
 
 
-<figure id="org6c29e01">
+<figure id="orgfba073c">
 <img src="./bilder/1/slackware-10.png" alt="slackware-10.png">
 
 <figcaption><span class="figure-number">Illustration 10 </span>Boota med kärnan och starta direkt i <code>/bin/bash</code>.</figcaption>
@@ -258,7 +262,7 @@ hunnit initialiseras.
 </p>
 
 
-<figure id="org6a7eadb">
+<figure id="org8f0958e">
 <img src="./bilder/1/slackware-11.png" alt="slackware-11.png">
 
 <figcaption><span class="figure-number">Illustration 11 </span><code>/etc/shadow</code> kan endast redigeras av root.</figcaption>
@@ -287,7 +291,7 @@ Jajamensan! Nytt lösenord: "edugrade".
 </p>
 
 
-<figure id="org70e9df6">
+<figure id="org5830e34">
 <img src="./bilder/1/slackware-12.png" alt="slackware-12.png">
 
 <figcaption><span class="figure-number">Illustration 12 </span><code>mount -o remount,rw /dev/sda1</code></figcaption>
@@ -299,11 +303,140 @@ hårddisken, startar sedan om och loggar in som "root"!
 </p>
 
 
-<figure id="org3f8cf9a">
+<figure id="org997cf34">
 <img src="./bilder/1/slackware-13.png" alt="slackware-13.png">
 
 <figcaption><span class="figure-number">Illustration 13 </span>YAAHOOO</figcaption>
 </figure>
+</div>
+</div>
+
+<div id="outline-container-orgb9d711a" class="outline-3">
+<h3 id="orgb9d711a">Hoppsan igen! (GRUB)</h3>
+<div class="outline-text-3" id="text-orgb9d711a">
+
+<figure id="orgeb664ad">
+<img src="./bilder/1/debian-6.png" alt="debian-6.png">
+
+</figure>
+
+<p>
+Samtidigt som jag installerade Slackware installerade jag också
+Debian för att demonstrera hur en kan gå tillväga i GRUB-miljö.
+</p>
+
+<p>
+Majoriteten av alla Linuxdistributioner använder GRUB, som är en
+förkortning av "GNU GRand Unified Bootloader".
+</p>
+
+
+<figure id="org557eb70">
+<img src="./bilder/1/debian-1.png" alt="debian-1.png">
+
+<figcaption><span class="figure-number">Illustration 15 </span>GRUB-kommandot <code>linux</code> laddar den angivna Linuxkärnan (vmlinuz).</figcaption>
+</figure>
+
+<p>
+När GRUB-menyn visas trycker jag på "e"-tangenten för att redigera
+GRUB-kommandon innan uppstart. I redigerarläget letar jag fram
+<code>linux</code>-kommandot och lägger till <code>init=/bin/bash</code> som argument
+till Linuxkärnan (vmlinuz). På så vis instrueras kärnan att starta
+upp direkt i bash-miljö, precis som det gick till i Slackware
+med LILO.
+</p>
+
+<p>
+Sedan trycker jag <code>Ctrl-x</code> för att starta upp med ändringen.
+</p>
+
+
+<figure id="orgcbcf516">
+<img src="./bilder/1/debian-2.png" alt="debian-2.png">
+
+<figcaption><span class="figure-number">Illustration 16 </span><code>mount -o remount,rw /dev/sda1</code></figcaption>
+</figure>
+
+<p>
+När allt är startat och klart blir jag automatiskt inloggad som
+"root". Även nu behöver jag ändra läs- och skrivrättigheterna för
+<code>/</code>. Till skillnad från Slackware ser vi här att <code>mount</code> korrekt
+visar att <code>/dev/sda1</code> <i>endast</i> har läsrättigheter. Även filen
+<code>/proc/mounts</code> existerar.
+</p>
+
+<p>
+Så, jag kör även här kommandot <code>mount -o remount,rw /dev/sda1</code>
+</p>
+
+
+<figure id="org2c52670">
+<img src="./bilder/1/debian-3.png" alt="debian-3.png">
+
+<figcaption><span class="figure-number">Illustration 17 </span>Ändra lösenordet för root med hjälp av kommandot <code>passwd</code> (utan argument).</figcaption>
+</figure>
+
+<p>
+Sedan <code>passwd</code> utan argument för att ändra lösenordet för den
+inloggade användaren ("root" i det här fallet). Här fyller jag i
+"edugrade" igen.
+</p>
+
+
+<figure id="org89ec2b0">
+<img src="./bilder/1/debian-4.png" alt="debian-4.png">
+
+<figcaption><span class="figure-number">Illustration 18 </span>Filen <code>/etc/passwd</code> visar vilka användare som finns registrerade.</figcaption>
+</figure>
+
+<p>
+Jag kom faktiskt inte heller ihåg mitt användarnamn och lösenord,
+så jag körde kommandot <code>cat /etc/passwd</code> för att läsa vilka
+användare som finns registrerade i systemet. Jag förstod att det
+var "leonard" när jag såg det i listan. För att ändra lösenordet
+för användaren "leonard" från en annan användare ("root" i det här
+fallet), behöver jag ange användarnamnet som argument till
+<code>passwd</code>.
+</p>
+
+<p>
+Sagt och gjort, nu återstår bara att synka buffern och starta
+om.
+</p>
+
+
+<figure id="org50a67b1">
+<img src="./bilder/1/debian-5.png" alt="debian-5.png">
+
+<figcaption><span class="figure-number">Illustration 19 </span><code>exec /sbin/init</code> initierar systemet</figcaption>
+</figure>
+
+<p>
+Men, ett problem uppstår, jag kan inte göra en hälsosam omstart
+utan <code>systemd</code> som alltså inte har initierats. Detta är en stor
+skillnad från Slackware som fortfarande använder <code>SysVinit</code>. En
+enkel lösning är att helt enkelt fortsätta initieringen för att
+sedan starta om. Genom att köra kommadot <code>exec /sbin/init</code>
+fortsätter operativsystemet att starta upp som vanligt.
+</p>
+
+
+<figure id="org07ddbdf">
+<img src="./bilder/1/debian-7.png" alt="debian-7.png">
+
+<figcaption><span class="figure-number">Illustration 20 </span>"su" är en förkortning av "substitute user" eller "switch user"</figcaption>
+</figure>
+
+<p>
+Efter att jag loggat in med användaren "leonard" testar jag också
+om "root"-lösenordet fungerar, genom att öppna en terminalemulator
+och köra kommandot <code>su</code>. Utan något argument väljs användaren
+"root" automatiskt.
+</p>
+
+<p>
+Succé!
+</p>
 </div>
 </div>
 </div>
